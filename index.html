@@ -27,6 +27,7 @@
   --on-accent:#121212;
   --off:#A79C94;
   --focus:#FF6B00;
+  --flash:rgba(255,107,0,.18);
   /* hero band is always obsidian (brand: dark-mode prestige) */
   --hero-bg:#121212;
   --hero-surface:#1C1A19;
@@ -95,6 +96,29 @@ p{margin:0}
 .btn svg{width:18px;height:18px;flex:none}
 .btn-sm{padding:9px 14px;font-size:.9rem}
 .btn-lg{padding:16px 26px;font-size:1.08rem;letter-spacing:.01em}
+.btn-glow{position:relative;isolation:isolate;overflow:hidden;padding:10px 10px 10px 22px;gap:18px;border-radius:14px;text-align:left;color:#121212;
+  background:linear-gradient(180deg,#FF934C 0%,#FF6B00 58%,#F25F00 100%);
+  box-shadow:inset 0 1px 0 rgba(255,214,186,.75),0 0 0 1px rgba(255,107,0,.45),0 0 22px rgba(255,107,0,.42),0 14px 32px -12px rgba(255,107,0,.75);
+  animation:glow 2.8s ease-in-out infinite}
+.btn-glow:hover{background:linear-gradient(180deg,#FFA060 0%,#FF7712 58%,#FF6B00 100%);transform:translateY(-2px);
+  box-shadow:inset 0 1px 0 rgba(255,214,186,.85),0 0 0 1px rgba(255,140,60,.7),0 0 38px rgba(255,107,0,.65),0 18px 38px -12px rgba(255,107,0,.85)}
+.btn-glow::after{content:"";position:absolute;top:-20%;bottom:-20%;left:-45%;width:32%;z-index:0;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:sheen 4.2s ease-in-out infinite}
+.btn-glow .bt{position:relative;z-index:1;display:grid;gap:1px;min-width:0}
+.btn-glow .bt-main{font-size:1.12rem;font-weight:800;line-height:1.2}
+.btn-glow .bt-url{display:inline-flex;align-items:center;gap:6px;font-size:.84rem;font-weight:700;color:rgba(18,18,18,.78);letter-spacing:.01em}
+.btn-glow .bt-url svg{width:13px;height:13px}
+.btn-glow .bt-go{position:relative;z-index:1;flex:none;width:46px;height:46px;border-radius:10px;background:#121212;color:#FF8A3D;display:grid;place-items:center;transition:transform .2s ease}
+.btn-glow .bt-go svg{width:20px;height:20px}
+.btn-glow:hover .bt-go{transform:translateX(3px)}
+.btn-glow.sm{padding:6px 6px 6px 14px;gap:12px;border-radius:12px;animation:none}
+.btn-glow.sm .bt-main{font-size:.98rem}
+.btn-glow.sm .bt-url{font-size:.74rem}
+.btn-glow.sm .bt-go{width:36px;height:36px;border-radius:8px}
+.btn-glow.sm::after{animation-duration:5.5s}
+@keyframes glow{0%,100%{box-shadow:inset 0 1px 0 rgba(255,214,186,.75),0 0 0 1px rgba(255,107,0,.45),0 0 18px rgba(255,107,0,.35),0 14px 32px -12px rgba(255,107,0,.7)}
+  50%{box-shadow:inset 0 1px 0 rgba(255,214,186,.75),0 0 0 1px rgba(255,140,60,.65),0 0 36px rgba(255,107,0,.62),0 16px 36px -12px rgba(255,107,0,.85)}}
+@keyframes sheen{0%,62%{left:-45%}100%{left:125%}}
 
 /* ---------- Hero ---------- */
 .hero{background:var(--hero-bg);color:var(--hero-fg);position:relative;overflow:hidden;
@@ -110,8 +134,8 @@ p{margin:0}
 .hero h1 em{font-style:normal;color:var(--hero-accent)}
 .hero .lede{color:var(--hero-muted);font-size:1.05rem;max-width:46ch;margin-top:14px}
 .cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin-top:24px}
-.cta-link{color:var(--hero-muted);font-size:.9rem}
-.cta-link a{color:var(--hero-fg);font-weight:700;text-underline-offset:3px}
+.cta-note{color:var(--hero-muted);font-size:.86rem;max-width:30ch;line-height:1.45}
+.cta-note b{color:var(--hero-fg)}
 
 .when{background:var(--hero-surface);border:1px solid var(--hero-line);border-radius:16px;overflow:hidden}
 .when-start{display:flex;align-items:center;gap:16px;padding:18px 20px;border-bottom:1px solid var(--hero-line)}
@@ -153,29 +177,44 @@ section.block + section.block{border-top:1px solid var(--line)}
 .sec-head p{color:var(--muted);max-width:56ch;font-size:.95rem}
 
 /* ---------- Timetable ---------- */
-.tt{display:grid;grid-template-columns:minmax(0,330px) minmax(0,1fr);gap:28px;align-items:start}
-.glance{position:sticky;top:84px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
-.glance h3{font-size:1rem;margin-bottom:10px}
-.month-table{width:100%;border-collapse:separate;border-spacing:4px;table-layout:fixed}
-.month-table th{font-size:.68rem;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;padding:0 0 2px}
-.month-table td{height:44px;border-radius:8px;vertical-align:top;padding:4px 5px;font-size:.78rem;background:var(--bg);border:1px solid var(--line);position:relative}
-.month-table td.out{background:transparent;border-color:transparent;color:var(--off)}
-.month-table td.offday{background:transparent;border-style:dashed;color:var(--off)}
-.month-table td .dn{font-weight:700;font-variant-numeric:tabular-nums;display:block;line-height:1.1}
-.month-table td .mk{display:flex;gap:3px;margin-top:3px;align-items:center}
-.mk-c{width:9px;height:9px;border-radius:2px;background:var(--accent)}
-.mk-o{width:9px;height:9px;border-radius:50%;border:2px solid var(--accent)}
-.mk-t{width:9px;height:9px;background:var(--sandy-ink);transform:rotate(45deg) scale(.8)}
-.month-table td.nsep{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.month-table td.nsep .lbl{font-size:.6rem;font-weight:800;letter-spacing:.06em;display:block;margin-top:2px}
-.month-table td.today{box-shadow:inset 0 0 0 2px var(--fg)}
-.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:.78rem;color:var(--muted)}
-.legend span{display:inline-flex;align-items:center;gap:6px}
-.glance-sum{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.glance-sum div{display:grid}
-.glance-sum b{font-size:1.5rem;font-weight:800;font-stretch:80%;line-height:1.1;font-variant-numeric:tabular-nums}
-.glance-sum span{font-size:.78rem;color:var(--muted)}
-
+.tt{display:grid;grid-template-columns:minmax(0,1fr);gap:28px}
+.roadmap{background:var(--hero-bg);color:var(--hero-fg);border-radius:18px;padding:clamp(16px,2.6vw,26px);
+  background-image:linear-gradient(var(--hero-grid) 1px,transparent 1px),linear-gradient(90deg,var(--hero-grid) 1px,transparent 1px),radial-gradient(50% 70% at 100% 0%,rgba(255,107,0,.14),transparent 70%);
+  background-size:28px 28px,28px 28px,100% 100%}
+.rm-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:10px 24px;margin-bottom:8px}
+.rm-head h3{font-size:1.3rem}
+.rm-head p{color:var(--hero-muted);font-size:.88rem;margin-top:4px}
+.rm-key{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:.8rem;color:var(--hero-muted)}
+.rm-key span{display:inline-flex;align-items:center;gap:6px}
+.phases{list-style:none;margin:0;padding:0}
+.phase{display:grid;grid-template-columns:200px minmax(0,1fr);gap:10px 22px;padding:16px 0;border-top:1px solid var(--hero-line);align-items:start}
+.phase:first-child{border-top:0}
+.ph-k{font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--hero-accent)}
+.phase.break .ph-k,.phase.final .ph-k{color:var(--hero-muted)}
+.ph-t{font-size:1.2rem;font-weight:800;font-stretch:82%;line-height:1.2;margin-top:2px}
+.ph-s{font-size:.86rem;color:var(--hero-muted);margin-top:3px;line-height:1.4}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.day{font:inherit;color:inherit;text-align:left;cursor:pointer;border:1px solid var(--hero-line);background:var(--hero-surface);border-radius:11px;padding:8px 10px;display:grid;align-content:start;gap:5px;min-height:78px;transition:border-color .15s ease,transform .15s ease,background .15s ease}
+.day:hover{border-color:rgba(255,138,61,.65);transform:translateY(-1px)}
+.day .dt{display:flex;align-items:baseline;gap:6px}
+.day .dw{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--hero-muted)}
+.day .dd{font-size:1.25rem;font-weight:800;font-stretch:80%;line-height:1;font-variant-numeric:tabular-nums}
+.day .tm{font-size:.72rem;color:var(--hero-muted);font-variant-numeric:tabular-nums}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tg{font-style:normal;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:5px;line-height:1.25;border:1px solid transparent}
+.tg-c{background:var(--accent);color:#121212}
+.tg-o{border-color:var(--hero-accent);color:var(--hero-accent)}
+.tg-t{background:rgba(226,139,92,.16);border-color:rgba(226,139,92,.55);color:#F3B48F}
+.tg-off{border:1px dashed rgba(255,255,255,.22);color:var(--hero-muted)}
+.tg-x{background:#121212;color:#FF8A3D}
+.day.off{background:transparent;border-style:dashed}
+.day.exam{background:var(--hero-fg);color:#121212;border-color:var(--hero-fg)}
+.day.exam .dw,.day.exam .tm{color:#5D544E}
+.day.past{opacity:.48}
+.day.today{box-shadow:0 0 0 2px var(--hero-accent)}
+.day .now{font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--hero-accent)}
+.row.flash{animation:flash 1.8s ease}
+@keyframes flash{0%,35%{background:var(--flash)}100%{}}
 .tabs{display:inline-flex;gap:4px;background:var(--surface-2);padding:4px;border-radius:12px;margin-bottom:16px;max-width:100%}
 .tab{font:inherit;font-weight:700;font-size:.95rem;border:0;background:transparent;color:var(--muted);padding:9px 16px;border-radius:9px;cursor:pointer;white-space:nowrap}
 .tab[aria-selected="true"]{background:var(--bg);color:var(--fg);box-shadow:var(--shadow)}
@@ -266,6 +305,23 @@ footer nav a{color:var(--hero-muted);text-underline-offset:3px}
 footer nav a:hover{color:var(--hero-fg)}
 footer .note{flex-basis:100%;font-size:.78rem;color:var(--hero-muted);opacity:.85}
 
+/* ---------- Mobile enrol bar ---------- */
+.mbar{display:none}
+@media (max-width:860px){
+  .mbar{display:flex;align-items:center;gap:12px;position:fixed;left:0;right:0;bottom:0;z-index:25;
+    background:rgba(12,12,12,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--hero-line);color:var(--hero-fg);
+    padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));
+    padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+    transform:translateY(110%);visibility:hidden;transition:transform .28s ease,visibility 0s linear .28s}
+  .mbar.show{transform:none;visibility:visible;transition:transform .28s ease}
+  .mbar .mb-info{min-width:0;flex:1;display:grid;line-height:1.3}
+  .mbar .mb-k{font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--hero-accent)}
+  .mbar .mb-v{font-size:.84rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mbar .bt-url{display:none}
+  .mbar .btn-glow.sm{padding-block:6px}
+  .tabs{position:sticky;top:calc(61px + env(safe-area-inset-top,0px));z-index:6;box-shadow:0 6px 16px -10px rgba(0,0,0,.45)}
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width:1020px){
   .faculty{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -274,8 +330,7 @@ footer .note{flex-basis:100%;font-size:.78rem;color:var(--hero-muted);opacity:.8
 }
 @media (max-width:860px){
   .hero .wrap{grid-template-columns:minmax(0,1fr)}
-  .tt{grid-template-columns:minmax(0,1fr)}
-  .glance{position:static}
+  .phase{grid-template-columns:150px minmax(0,1fr)}
   .nsep-grid{grid-template-columns:minmax(0,1fr)}
   .nav{display:none}
   .site-head .btn-sm{margin-left:auto}
@@ -290,16 +345,21 @@ footer .note{flex-basis:100%;font-size:.78rem;color:var(--hero-muted);opacity:.8
   .row{grid-template-columns:52px minmax(0,1fr);padding:12px 14px}
   .row .time{grid-column:2;text-align:left}
   .brand .tag{display:none}
-  .btn-lg{width:100%}
+  .btn-glow:not(.sm){width:100%}
+  .phase{grid-template-columns:minmax(0,1fr);gap:10px;padding:14px 0}
+  .days{grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:6px}
+  .day{min-height:72px;padding:7px 8px}
+  .rm-key{display:none}
   .slot{padding:14px 14px}
   .hero .lede{font-size:.98rem;margin-top:10px}
   .cta-row{margin-top:18px}
-  .cta-link{width:100%;text-align:center}
+  .cta-note{max-width:none}
 }
 @media (max-width:380px){
   .pattern{grid-template-columns:1fr}
   .pattern div + div{border-left:0;border-top:1px solid var(--hero-line)}
-  .month-table td{height:40px;padding:3px}
+  .days{grid-template-columns:repeat(auto-fill,minmax(62px,1fr))}
+  .day .dd{font-size:1.1rem}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -333,11 +393,8 @@ footer .note{flex-basis:100%;font-size:.78rem;color:var(--hero-muted);opacity:.8
         <h1 id="hero-title">NSEP 2026 Camp: live physics practice, <em>right up to exam week</em></h1>
         <p class="lede">Live classes with Olympiad faculty and NSEP-pattern tests, from orientation on 31 October to the final full-syllabus test on 20 November.</p>
         <div class="cta-row">
-          <a class="btn btn-lg" href="https://vdnt.in/NSEP26VOS">
-            Complete Enrolment
-            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4.5-5L15 10l-4.5 5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <p class="cta-link">Form link: <a href="https://vdnt.in/NSEP26VOS">vdnt.in/NSEP26VOS</a></p>
+          <a class="btn btn-glow" href="https://vdnt.in/NSEP26VOS" aria-label="Complete Enrolment at vdnt.in/NSEP26VOS"><span class="bt"><span class="bt-main">Complete Enrolment</span><span class="bt-url"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6.5 9.5l3-3M7 4.5l1-1a2.8 2.8 0 014 4l-1 1M9 11.5l-1 1a2.8 2.8 0 01-4-4l1-1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>vdnt.in/NSEP26VOS</span></span><span class="bt-go"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4.5-5L15 10l-4.5 5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          <p class="cta-note">Keep your <b>NSEP Registration Number</b> and <b>Date of Birth</b> ready.</p>
         </div>
       </div>
 
@@ -406,23 +463,20 @@ footer .note{flex-basis:100%;font-size:.78rem;color:var(--hero-muted);opacity:.8
       </div>
 
       <div class="tt">
-        <aside class="glance" aria-labelledby="glance-title">
-          <h3 id="glance-title">Camp at a glance</h3>
-          <table class="month-table" id="month">
-            <caption class="sr">Calendar from 25 October to 28 November 2026 showing class days, test days and the NSEP exam day</caption>
-            <thead><tr><th scope="col" abbr="Sunday">Su</th><th scope="col" abbr="Monday">Mo</th><th scope="col" abbr="Tuesday">Tu</th><th scope="col" abbr="Wednesday">We</th><th scope="col" abbr="Thursday">Th</th><th scope="col" abbr="Friday">Fr</th><th scope="col" abbr="Saturday">Sa</th></tr></thead>
-            <tbody></tbody>
-          </table>
-          <div class="legend" aria-hidden="true">
-            <span><i class="mk-o"></i>Orientation</span>
-            <span><i class="mk-c"></i>Class</span>
-            <span><i class="mk-t"></i>Full-syllabus test</span>
+        <div class="roadmap" aria-labelledby="rm-title">
+          <div class="rm-head">
+            <div>
+              <h3 id="rm-title">Camp roadmap</h3>
+              <p>Week by week, from orientation to the NSEP exam. Tap a day to open it in the timetable.</p>
+            </div>
+            <div class="rm-key" aria-hidden="true">
+              <span><i class="tg tg-c">Class</i></span>
+              <span><i class="tg tg-t">Test</i></span>
+              <span><i class="tg tg-off">Off</i></span>
+            </div>
           </div>
-          <div class="glance-sum">
-            <div><b data-count="classes">13</b><span>regular classes + orientation</span></div>
-            <div><b data-count="fst">10</b><span>dated full-syllabus tests</span></div>
-          </div>
-        </aside>
+          <ol class="phases" id="phases"></ol>
+        </div>
 
         <div style="min-width:0">
           <div class="tabs" role="tablist" aria-label="Timetable view">
@@ -563,10 +617,15 @@ footer .note{flex-basis:100%;font-size:.78rem;color:var(--hero-muted);opacity:.8
       <a href="https://iapt.org.in/national-standard-examination-in-physics-nsep/" rel="noopener">IAPT · NSEP</a>
       <a href="https://olympiads.hbcse.tifr.res.in/science-olympiad-2026-2027/" rel="noopener">HBCSE · Science Olympiad 2026–27</a>
     </nav>
-    <a class="btn btn-sm" href="https://vdnt.in/NSEP26VOS">Complete Enrolment</a>
+    <a class="btn btn-glow sm" href="https://vdnt.in/NSEP26VOS" aria-label="Complete Enrolment at vdnt.in/NSEP26VOS"><span class="bt"><span class="bt-main">Complete Enrolment</span><span class="bt-url"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6.5 9.5l3-3M7 4.5l1-1a2.8 2.8 0 014 4l-1 1M9 11.5l-1 1a2.8 2.8 0 01-4-4l1-1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>vdnt.in/NSEP26VOS</span></span><span class="bt-go"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4.5-5L15 10l-4.5 5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
     <p class="note">NSEP dates and pattern from IAPT and HBCSE pages, checked 28 October 2026. Vedantu Olympiad School is an independent coaching programme and is not affiliated with IAPT or HBCSE.</p>
   </div>
 </footer>
+
+<div class="mbar" id="mbar">
+  <div class="mb-info"><span class="mb-k" id="mb-k">Camp starts 31 Oct</span><span class="mb-v" id="mb-v">Orientation · 5:00–6:00 PM</span></div>
+  <a class="btn btn-glow sm" href="https://vdnt.in/NSEP26VOS" aria-label="Complete Enrolment at vdnt.in/NSEP26VOS"><span class="bt"><span class="bt-main">Complete Enrolment</span><span class="bt-url"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6.5 9.5l3-3M7 4.5l1-1a2.8 2.8 0 014 4l-1 1M9 11.5l-1 1a2.8 2.8 0 01-4-4l1-1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>vdnt.in/NSEP26VOS</span></span><span class="bt-go"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4.5-5L15 10l-4.5 5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+</div>
 
 <script>
 (function(){
@@ -596,21 +655,21 @@ footer .note{flex-basis:100%;font-size:.78rem;color:var(--hero-muted);opacity:.8
   setCount("tests", totalTests);
 
   /* ---- class list (consecutive no-class days grouped) ---- */
-  var nextDone=false;
+  var nextDone=false, offRow={};
   var classList=document.getElementById("class-list");
   for(var i=0;i<DATA.lectures.length;i++){
     var l=DATA.lectures[i], p=parts(l.date);
     if(l.off){
       var j=i; while(j+1<DATA.lectures.length && DATA.lectures[j+1].off) j++;
       var last=DATA.lectures[j], lp=parts(last.date);
-      var li=el("li","row off");
+      var li=el("li","row off"); li.id="r-"+l.date; for(var q=i;q<=j;q++){ offRow[DATA.lectures[q].date]=li.id; }
       var dt=el("div","date"); dt.appendChild(el("span","dd num", j>i ? p.d+"–"+lp.d : String(p.d))); dt.appendChild(el("span","mm",MON[lp.m]));
       var label = j>i ? "No class · "+DOW[dow(l.date)]+" to "+DOW[dow(last.date)] : "No class · "+DOW[dow(l.date)];
       li.appendChild(dt); li.appendChild(el("div","what",label));
       classList.appendChild(li); i=j; continue;
     }
     var isOrient = l.time==="5:00";
-    var row=el("li","row"+(isOrient?" orient":""));
+    var row=el("li","row"+(isOrient?" orient":"")); row.id="r-"+l.date;
     var d=el("div","date"); d.appendChild(el("span","dd num",String(p.d))); d.appendChild(el("span","mm",MON[p.m])); d.appendChild(el("span","dw",DOW[dow(l.date)]));
     var w=el("div","what");
     var k=el("span","kind"); k.appendChild(el("i", isOrient?"mk-o":"mk-c")); k.appendChild(document.createTextNode(isOrient?"Orientation":"Live class"));
@@ -627,7 +686,7 @@ footer .note{flex-basis:100%;font-size:.78rem;color:var(--hero-muted);opacity:.8
   /* ---- test list ---- */
   var testList=document.getElementById("test-list"), nextTest=false;
   DATA.tests.forEach(function(tt){
-    var p=parts(tt.date), row=el("li","row");
+    var p=parts(tt.date), row=el("li","row"); row.id="t-"+tt.date;
     var d=el("div","date"); d.appendChild(el("span","dd num",String(p.d))); d.appendChild(el("span","mm",MON[p.m])); d.appendChild(el("span","dw",DOW[dow(tt.date)]));
     var w=el("div","what");
     var k=el("span","kind"); k.appendChild(el("i","mk-t")); k.appendChild(document.createTextNode("NSEP pattern"));
@@ -652,40 +711,107 @@ footer .note{flex-basis:100%;font-size:.78rem;color:var(--hero-muted);opacity:.8
     n.appendChild(document.createTextNode(desc));
   });
 
-  /* ---- calendar ---- */
+  /* ---- roadmap ---- */
   var byDate={};
   DATA.lectures.forEach(function(l){ (byDate[l.date]=byDate[l.date]||{}).lec=l; });
   DATA.tests.forEach(function(t){ (byDate[t.date]=byDate[t.date]||{}).test=t; });
-  var tbody=document.querySelector("#month tbody");
-  var start=Date.UTC(2026,9,25), end=Date.UTC(2026,10,28), DAY=864e5, tr=null;
-  for(var ts=start; ts<=end; ts+=DAY){
-    var dd=new Date(ts), iso=dd.toISOString().slice(0,10);
-    if(dd.getUTCDay()===0){ tr=document.createElement("tr"); tbody.appendChild(tr); }
-    var td=document.createElement("td"), info=byDate[iso]||{}, said=[];
-    var num=el("span","dn",String(dd.getUTCDate()));
-    if(dd.getUTCDate()===1 || ts===start){ num.textContent=dd.getUTCDate()+" "+MON[dd.getUTCMonth()]; }
-    td.appendChild(num);
-    var mk=el("span","mk");
-    if(info.lec && !info.lec.off){
-      var o=info.lec.time==="5:00"; mk.appendChild(el("i", o?"mk-o":"mk-c"));
-      said.push((o?"Orientation ":"Class: "+info.lec.topic+", ")+slot(info.lec.time));
-    }
-    if(info.test){ mk.appendChild(el("i","mk-t")); said.push(info.test.name); }
-    if(mk.childNodes.length) td.appendChild(mk);
-    if(iso===NSEP_DATE){ td.className="nsep"; td.appendChild(el("span","lbl","NSEP")); said.push("NSEP exam, 8:30 to 10:30 AM"); }
-    else if(info.lec && info.lec.off && !info.test){ td.className="offday"; said.push("No class"); }
-    else if(!info.lec && !info.test){ td.className="out"; }
-    if(iso===TODAY) td.classList.add("today");
-    var sr=el("span","sr", said.length ? " — "+said.join("; ") : ""); td.appendChild(sr);
-    td.setAttribute("title", fmt(iso)+(said.length?": "+said.join("; "):""));
-    tr.appendChild(td);
+  var DAY=864e5, firstDay=DATA.lectures[0].date, lastClass=sessions[sessions.length-1].date, days=[];
+  for(var ts=utc(firstDay); ts<=utc(NSEP_DATE); ts+=DAY){
+    var iso=new Date(ts).toISOString().slice(0,10), inf=byDate[iso]||{}, kind;
+    if(iso===NSEP_DATE) kind="exam";
+    else if(inf.lec && !inf.lec.off) kind = inf.lec.time==="5:00" ? "orient" : "class";
+    else kind="gap";
+    days.push({iso:iso, kind:kind, lec:inf.lec, test:inf.test});
+  }
+  var phases=[];
+  days.forEach(function(d){
+    var key = d.kind==="gap" ? (d.iso>lastClass ? "final" : "break") : d.kind;
+    var last=phases[phases.length-1];
+    if(last && last.key===key && (key==="class"||key==="break"||key==="final")) last.days.push(d);
+    else phases.push({key:key, days:[d]});
+  });
+  function rangeLabel(ds){
+    var a=parts(ds[0].iso), b=parts(ds[ds.length-1].iso);
+    if(ds.length===1) return DOW[dow(ds[0].iso)]+", "+a.d+" "+MON[a.m];
+    return a.m===b.m ? a.d+"–"+b.d+" "+MON[b.m] : a.d+" "+MON[a.m]+" – "+b.d+" "+MON[b.m];
+  }
+  function plural(n,w){ return n+" "+w+(n===1?"":(/(s|sh|ch|x)$/.test(w)?"es":"s")); }
+  var block=0, phaseList=document.getElementById("phases");
+  phases.forEach(function(ph){
+    var nTests=ph.days.filter(function(d){return d.test;}).length, k, s;
+    if(ph.key==="orient"){ k="Orientation"; s="5:00–6:00 PM · "+ph.days[0].lec.teacher; }
+    else if(ph.key==="class"){ block++; k="Class block "+block; s=plural(ph.days.length,"live class")+(nTests?" · "+plural(nTests,"full-syllabus test"):""); }
+    else if(ph.key==="break"){ k="No classes"; s=nTests ? plural(nTests,"full-syllabus test")+" to attempt" : "Rest and revise"; }
+    else if(ph.key==="final"){ k="Final stretch"; s=nTests ? "Last full-syllabus test: "+ph.days.filter(function(d){return d.test;}).map(function(d){return fmt(d.iso);}).join(", ") : "Revision days"; }
+    else { k="NSEP exam"; s="8:30–10:30 AM · conducted by IAPT"; }
+    var li=el("li","phase "+ph.key), lab=el("div","ph-label");
+    lab.appendChild(el("p","ph-k",k)); lab.appendChild(el("p","ph-t num",rangeLabel(ph.days))); lab.appendChild(el("p","ph-s",s));
+    var grid=el("div","days");
+    ph.days.forEach(function(d){
+      var p=parts(d.iso), b=el("button","day"), said=[];
+      b.type="button";
+      var dt=el("span","dt"); dt.appendChild(el("span","dw",DOW[dow(d.iso)])); dt.appendChild(el("span","dd",String(p.d)));
+      b.appendChild(dt);
+      var tags=el("span","tags"), tm=null;
+      if(d.kind==="orient"){ tags.appendChild(el("i","tg tg-o","Orientation")); tm="5:00 PM"; said.push("Orientation, 5:00 to 6:00 PM"); }
+      if(d.kind==="class"){ tags.appendChild(el("i","tg tg-c","Class")); tm="8:30 PM"; said.push("Class: "+d.lec.topic+", 8:30 to 10:00 PM"); }
+      if(d.kind==="exam"){ b.classList.add("exam"); tags.appendChild(el("i","tg tg-x","NSEP")); tm="8:30 AM"; said.push("NSEP exam, 8:30 to 10:30 AM"); }
+      if(d.test){ tags.appendChild(el("i","tg tg-t","Test")); said.push(d.test.name); }
+      if(d.kind==="gap" && !d.test){ b.classList.add("off"); tags.appendChild(el("i","tg tg-off","Off")); said.push("No class"); }
+      else if(d.kind==="gap"){ b.classList.add("off"); }
+      b.appendChild(tags);
+      if(tm) b.appendChild(el("span","tm",tm));
+      if(d.iso<TODAY) b.classList.add("past");
+      if(d.iso===TODAY){ b.classList.add("today"); b.appendChild(el("span","now","Today")); }
+      b.setAttribute("aria-label", fmt(d.iso)+": "+said.join("; ")+". Show in timetable");
+      b.addEventListener("click",function(){ jump(d); });
+      grid.appendChild(b);
+    });
+    li.appendChild(lab); li.appendChild(grid); phaseList.appendChild(li);
+  });
+
+  function jump(d){
+    var id=null, tab=null;
+    if(d.kind==="exam"){ id="nsep"; }
+    else if(d.lec && !d.lec.off){ id="r-"+d.iso; tab="tab-classes"; }
+    else if(d.test){ id="t-"+d.iso; tab="tab-tests"; }
+    else if(offRow[d.iso]){ id=offRow[d.iso]; tab="tab-classes"; }
+    if(!id) return;
+    if(tab) select(document.getElementById(tab), false);
+    var target=document.getElementById(id); if(!target) return;
+    var head=document.querySelector(".site-head").offsetHeight;
+    var tb=document.querySelector(".tabs"), extra=(tab && getComputedStyle(tb).position==="sticky") ? tb.offsetHeight+8 : 0;
+    var y=target.getBoundingClientRect().top+window.pageYOffset-head-extra-14;
+    var reduce=window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({top:Math.max(0,y), behavior: reduce?"auto":"smooth"});
+    if(target.classList.contains("row")){ target.classList.remove("flash"); void target.offsetWidth; target.classList.add("flash"); }
+    if(!target.hasAttribute("tabindex")) target.setAttribute("tabindex","-1");
+    try{ target.focus({preventScroll:true}); }catch(e){}
   }
 
+  /* ---- mobile enrol bar ---- */
+  var nextLec=sessions.filter(function(l){ return l.date>=TODAY; })[0];
+  var mbK=document.getElementById("mb-k"), mbV=document.getElementById("mb-v");
+  if(nextLec){
+    var o=nextLec.time==="5:00";
+    mbK.textContent = nextLec.date===TODAY ? "Today" : "Next: "+fmt(nextLec.date);
+    mbV.textContent = (o ? "Orientation" : nextLec.topic)+" · "+slot(nextLec.time);
+  } else { mbK.textContent="NSEP 2026 Camp"; mbV.textContent="Enrol at vdnt.in/NSEP26VOS"; }
+  var mbar=document.getElementById("mbar"), heroCta=document.querySelector(".hero .btn-glow"), foot=document.querySelector("footer");
+  if("IntersectionObserver" in window){
+    var vis={hero:true, foot:false};
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ vis[e.target===heroCta?"hero":"foot"]=e.isIntersecting; });
+      mbar.classList.toggle("show", !vis.hero && !vis.foot);
+    });
+    io.observe(heroCta); io.observe(foot);
+  } else { mbar.classList.add("show"); }
+
   /* ---- countdown ---- */
-  var days=Math.round((utc(NSEP_DATE)-utc(TODAY))/DAY), cd=document.getElementById("countdown");
-  if(days>1){ cd.textContent=days+" days to NSEP"; cd.hidden=false; }
-  else if(days===1){ cd.textContent="NSEP is tomorrow"; cd.hidden=false; }
-  else if(days===0){ cd.textContent="NSEP is today. All the best."; cd.hidden=false; }
+  var dleft=Math.round((utc(NSEP_DATE)-utc(TODAY))/DAY), cd=document.getElementById("countdown");
+  if(dleft>1){ cd.textContent=dleft+" days to NSEP"; cd.hidden=false; }
+  else if(dleft===1){ cd.textContent="NSEP is tomorrow"; cd.hidden=false; }
+  else if(dleft===0){ cd.textContent="NSEP is today. All the best."; cd.hidden=false; }
 
   /* ---- tabs ---- */
   var tabs=[].slice.call(document.querySelectorAll('[role="tab"]'));
